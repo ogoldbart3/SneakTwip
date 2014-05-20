@@ -5,13 +5,31 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import winterwell.jtwitter.Twitter;
+import winterwell.jtwitter.android.AndroidTwitterLogin;
+
 
 public class MainActivity extends ActionBarActivity {
+
+    final String MY_TWITTER_KEY = "test";
+    final String MY_TWITTER_SECRET = "test";
+    final String MY_TWITTER_CALLBACK = "test";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AndroidTwitterLogin atl = new AndroidTwitterLogin(this,
+                MY_TWITTER_KEY,MY_TWITTER_SECRET,MY_TWITTER_CALLBACK) {
+
+            protected void onSuccess(Twitter jtwitter, String[] tokens) {
+                jtwitter.setStatus("I can now post to Twitter!");
+                // Recommended: store tokens in your app for future use
+                // with the constructor OAuthSignpostClient(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret)
+            }
+        };
+        atl.run();
     }
 
 
