@@ -1,5 +1,7 @@
 package com.rumbleworks.sneaktwip.app;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +9,7 @@ import android.view.MenuItem;
 
 import org.apache.commons.logging.Log;
 
+import winterwell.jtwitter.OAuthSignpostClient;
 import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.android.AndroidTwitterLogin;
 
@@ -24,16 +27,27 @@ public class MainActivity extends ActionBarActivity {
         int a = 7;
 
 
-        AndroidTwitterLogin atl = new AndroidTwitterLogin(this,
-                MY_TWITTER_KEY,MY_TWITTER_SECRET,MY_TWITTER_CALLBACK) {
+//        AndroidTwitterLogin atl = new AndroidTwitterLogin(this,
+//                MY_TWITTER_KEY,MY_TWITTER_SECRET,MY_TWITTER_CALLBACK) {
+//
+//            protected void onSuccess(Twitter jtwitter, String[] tokens) {
+//                jtwitter.setStatus("I can now post to Twitter!");
+//                // Recommended: store tokens in your app for future use
+//                // with the constructor OAuthSignpostClient(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret)
+//            }
+//        };
+//        atl.run();
 
-            protected void onSuccess(Twitter jtwitter, String[] tokens) {
-                jtwitter.setStatus("I can now post to Twitter!");
-                // Recommended: store tokens in your app for future use
-                // with the constructor OAuthSignpostClient(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret)
-            }
-        };
-        atl.run();
+        OAuthSignpostClient authClient = new OAuthSignpostClient('apiKey','apiSecret','callbackUrl');
+
+        java.net.URI jUrl = authClient.authorizeUrl();
+        Uri.Builder uriBuilder = new Uri.Builder();
+        uriBuilder.encodedPath(jUrl.toString());
+
+        Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(jUrl.toString()));
+        startActivity(myIntent);
+
+
     }
 
 
