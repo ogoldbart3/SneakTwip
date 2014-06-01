@@ -38,15 +38,6 @@ public class MainActivity extends ActionBarActivity {
 //        };
 //        atl.run();
 
-        OAuthSignpostClient authClient = new OAuthSignpostClient('apiKey','apiSecret','callbackUrl');
-
-        java.net.URI jUrl = authClient.authorizeUrl();
-        Uri.Builder uriBuilder = new Uri.Builder();
-        uriBuilder.encodedPath(jUrl.toString());
-
-        Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(jUrl.toString()));
-        startActivity(myIntent);
-
 
     }
 
